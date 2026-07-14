@@ -3,1095 +3,533 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="theme-color" content="#0a0f1e">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ONE QUEST Autos">
-<link rel="manifest" id="pwa-manifest">
-<title>ONE QUEST — Lista de Precios</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Lista de Precios - One Quest Automotores</title>
 <style>
-  :root {
-    --bg: #080c18;
-    --surface: #0e1427;
-    --surface2: #141c33;
-    --border: rgba(255,255,255,0.07);
-    --accent: #e8a020;
-    --accent2: #f4c055;
-    --text: #f0f4ff;
-    --text2: #8892b0;
-    --green: #22d97a;
-    --red: #ff4d6d;
-    --blue: #4d9fff;
-    --radius: 14px;
-    --shadow: 0 8px 32px rgba(0,0,0,0.5);
+  :root{
+    --bg:#0b1220;
+    --panel:#111a2b;
+    --panel-2:#0f1626;
+    --border:#233047;
+    --border-strong:#2f4066;
+    --text:#eef2f8;
+    --text-secondary:#93a1bd;
+    --text-muted:#5f6d8c;
+    --blue:#2f6bff;
+    --blue-dark:#1b3d8f;
+    --black:#05070d;
+    --green:#22c55e;
+    --red:#ef4444;
+    --amber:#f5a623;
+    --radius:12px;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    -webkit-tap-highlight-color:transparent;
+    padding-bottom:80px;
   }
-
-  /* HEADER */
-  header {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(8,12,24,0.9);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 16px;
+  header{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:linear-gradient(180deg, var(--black), #0a1120);
+    padding:16px 16px 12px;
+    border-bottom:1px solid var(--border);
   }
-  .header-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    height: 60px;
+  .brand{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
   }
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 3px;
-    color: var(--accent);
-    white-space: nowrap;
+  .brand h1{
+    font-size:17px;
+    font-weight:700;
+    margin:0;
+    letter-spacing:.2px;
   }
-  .logo span { color: var(--text2); font-size: 13px; letter-spacing: 1px; display: block; font-family: 'Outfit'; margin-top: -4px; }
-
-  /* TABS */
-  .tabs {
-    display: flex;
-    gap: 4px;
-    margin-left: auto;
-    background: var(--surface2);
-    padding: 4px;
-    border-radius: 10px;
+  .brand span{
+    display:block;
+    font-size:11px;
+    color:var(--text-secondary);
+    margin-top:2px;
+    font-weight:400;
   }
-  .tab {
-    padding: 6px 14px;
-    border-radius: 7px;
-    border: none;
-    background: transparent;
-    color: var(--text2);
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
+  .status{
+    font-size:11px;
+    padding:4px 9px;
+    border-radius:20px;
+    background:rgba(34,197,94,.12);
+    color:var(--green);
+    border:1px solid rgba(34,197,94,.35);
+    white-space:nowrap;
   }
-  .tab.active {
-    background: var(--accent);
-    color: #000;
+  .status.saving{
+    background:rgba(245,166,35,.12);
+    color:var(--amber);
+    border-color:rgba(245,166,35,.35);
   }
-
-  /* MAIN */
-  main { max-width: 900px; margin: 0 auto; padding: 16px; }
-
-  /* SEARCH + FILTERS */
-  .controls {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
+  .status.error{
+    background:rgba(239,68,68,.12);
+    color:var(--red);
+    border-color:rgba(239,68,68,.35);
   }
-  .search-box {
-    flex: 1;
-    min-width: 200px;
-    position: relative;
+  .toolbar{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
   }
-  .search-box input {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 10px 14px 10px 40px;
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
+  .search{
+    flex:1;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 12px;
+    color:var(--text);
+    font-size:14px;
   }
-  .search-box input:focus { border-color: var(--accent); }
-  .search-box::before {
-    content: '🔍';
-    position: absolute;
-    left: 13px; top: 50%;
-    transform: translateY(-50%);
-    font-size: 14px;
-    pointer-events: none;
+  .search::placeholder{color:var(--text-muted);}
+  .btn-add{
+    background:var(--blue);
+    border:none;
+    border-radius:10px;
+    color:#fff;
+    font-size:20px;
+    line-height:1;
+    width:42px;
+    font-weight:600;
   }
-  .filter-btns {
-    display: flex;
-    gap: 6px;
+  .count{
+    font-size:12px;
+    color:var(--text-muted);
+    margin-top:8px;
   }
-  .filter-btn {
-    padding: 10px 16px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text2);
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
+  main{padding:12px;}
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    margin-bottom:10px;
+    overflow:hidden;
   }
-  .filter-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
-
-  /* STATS BAR */
-  .stats-bar {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 14px;
-    overflow-x: auto;
-    padding-bottom: 4px;
+  .card-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:12px 14px;
+    gap:10px;
+    cursor:pointer;
   }
-  .stat-chip {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-size: 12px;
-    color: var(--text2);
-    white-space: nowrap;
-    flex-shrink: 0;
+  .card-title{flex:1; min-width:0;}
+  .card-title .modelo{
+    font-size:15px;
+    font-weight:600;
+    margin:0 0 2px;
+    word-break:break-word;
   }
-  .stat-chip strong { color: var(--accent); }
-
-  /* CAR CARDS */
-  .cars-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .card-title .anio{
+    font-size:12px;
+    color:var(--text-secondary);
   }
-
-  .car-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    transition: border-color 0.2s, transform 0.15s;
-    cursor: pointer;
+  .card-price{
+    text-align:right;
+    white-space:nowrap;
   }
-  .car-card:hover { border-color: var(--accent); transform: translateY(-1px); }
-
-  .car-card-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
+  .card-price .final{
+    font-size:15px;
+    font-weight:700;
+    color:var(--green);
   }
-
-  .brand-badge {
-    width: 42px; height: 42px;
-    border-radius: 10px;
-    background: var(--surface2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-    border: 1px solid var(--border);
+  .card-price .entrega{
+    font-size:11px;
+    color:var(--text-muted);
+    margin-top:2px;
   }
-
-  .car-main-info { flex: 1; min-width: 0; }
-  .car-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 18px;
-    letter-spacing: 1px;
-    line-height: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .chevron{
+    color:var(--text-muted);
+    font-size:12px;
+    margin-left:4px;
+    transition:transform .15s;
   }
-  .car-year-type {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-    margin-top: 3px;
+  .card.open .chevron{transform:rotate(90deg);}
+  .card-body{
+    display:none;
+    padding:0 14px 14px;
+    border-top:1px solid var(--border);
   }
-  .year-tag {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 7px;
-    border-radius: 5px;
-    background: var(--surface2);
-    color: var(--text2);
+  .card.open .card-body{display:block;}
+  .field{
+    margin-top:10px;
   }
-  .okm-tag {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 5px;
-    background: rgba(34,217,122,0.15);
-    color: var(--green);
-    border: 1px solid rgba(34,217,122,0.25);
+  .field label{
+    display:block;
+    font-size:11px;
+    color:var(--text-muted);
+    margin-bottom:4px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.4px;
   }
-
-  .car-price-main {
-    text-align: right;
-    flex-shrink: 0;
+  .field input, .field textarea{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:9px 10px;
+    color:var(--text);
+    font-size:14px;
+    font-family:inherit;
   }
-  .price-label { font-size: 10px; color: var(--text2); letter-spacing: 0.5px; }
-  .price-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    color: var(--accent);
-    letter-spacing: 1px;
+  .field input:focus, .field textarea:focus{
+    outline:none;
+    border-color:var(--blue);
   }
-
-  .car-card-body {
-    display: none;
-    border-top: 1px solid var(--border);
+  .field textarea{
+    resize:vertical;
+    min-height:60px;
+    line-height:1.4;
   }
-  .car-card.expanded .car-card-body { display: block; }
-
-  .price-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--border);
+  .row2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
   }
-  .price-item {
-    background: var(--surface);
-    padding: 12px 14px;
+  .actions{
+    display:flex;
+    gap:8px;
+    margin-top:14px;
   }
-  .price-item-label {
-    font-size: 10px;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 3px;
+  .btn{
+    flex:1;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid var(--border-strong);
+    background:var(--panel-2);
+    color:var(--text);
+    font-size:13px;
+    font-weight:600;
   }
-  .price-item-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 17px;
-    letter-spacing: 0.5px;
+  .btn.save{
+    background:var(--blue);
+    border-color:var(--blue);
+    color:#fff;
   }
-  .price-item-value.accent { color: var(--accent); }
-  .price-item-value.green { color: var(--green); }
-  .price-item-value.blue { color: var(--blue); }
-  .price-item-value.red { color: var(--red); }
-
-  .bono-row {
-    padding: 10px 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(232,160,32,0.06);
-    border-top: 1px solid rgba(232,160,32,0.15);
+  .btn.save:active{background:var(--blue-dark);}
+  .btn.del{
+    color:var(--red);
+    border-color:rgba(239,68,68,.35);
+    flex:0 0 auto;
+    width:44px;
   }
-  .bono-label { font-size: 11px; color: var(--accent2); letter-spacing: 0.5px; }
-  .bono-value {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
-    color: var(--accent2);
+  .empty{
+    text-align:center;
+    padding:50px 20px;
+    color:var(--text-muted);
+    font-size:14px;
   }
-
-  .car-features {
-    padding: 10px 14px;
-    font-size: 12px;
-    color: var(--text2);
-    line-height: 1.5;
-    border-top: 1px solid var(--border);
+  .toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--panel);
+    border:1px solid var(--border-strong);
+    color:var(--text);
+    padding:10px 18px;
+    border-radius:30px;
+    font-size:13px;
+    opacity:0;
+    transition:opacity .2s, transform .2s;
+    pointer-events:none;
+    z-index:50;
+    white-space:nowrap;
   }
-
-  .calc-btn-row {
-    padding: 10px 14px;
-    border-top: 1px solid var(--border);
+  .toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
   }
-  .calc-btn {
-    width: 100%;
-    background: var(--accent);
-    color: #000;
-    border: none;
-    border-radius: 10px;
-    padding: 10px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    transition: opacity 0.2s;
-  }
-  .calc-btn:hover { opacity: 0.85; }
-
-  /* EMPTY STATE */
-  .empty-state {
-    text-align: center;
-    padding: 48px 16px;
-    color: var(--text2);
-  }
-  .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
-  .empty-state p { font-size: 15px; }
-
-  /* ======================== CALCULATOR ======================== */
-  .calc-view { display: none; }
-  .calc-view.active { display: block; }
-  .list-view { display: block; }
-  .list-view.hidden { display: none; }
-
-  .calc-panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-
-  .calc-car-selector {
-    padding: 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .calc-car-selector label {
-    font-size: 11px;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: block;
-    margin-bottom: 8px;
-  }
-  .calc-car-selector select {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    outline: none;
-    cursor: pointer;
-  }
-
-  .calc-section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 14px;
-    letter-spacing: 2px;
-    color: var(--text2);
-    padding: 14px 16px 0;
-  }
-
-  .calc-inputs {
-    padding: 12px 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .calc-input-group { display: flex; flex-direction: column; gap: 5px; }
-  .calc-input-group.full { grid-column: span 2; }
-  .calc-input-group label {
-    font-size: 11px;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .calc-input-group input, .calc-input-group select {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 12px;
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .calc-input-group input:focus,
-  .calc-input-group select:focus { border-color: var(--accent); }
-
-  .calc-toggle-row {
-    padding: 0 16px 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .toggle-label { font-size: 13px; color: var(--text2); }
-  .toggle {
-    width: 40px; height: 22px;
-    background: var(--surface2);
-    border-radius: 11px;
-    position: relative;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    transition: background 0.2s;
-    flex-shrink: 0;
-  }
-  .toggle.on { background: var(--accent); }
-  .toggle::after {
-    content: '';
-    width: 16px; height: 16px;
-    background: white;
-    border-radius: 50%;
-    position: absolute;
-    top: 2px; left: 2px;
-    transition: left 0.2s;
-  }
-  .toggle.on::after { left: 20px; }
-
-  /* RESULTS */
-  .calc-results {
-    background: var(--surface2);
-    border-top: 1px solid var(--border);
-    margin-top: 4px;
-  }
-
-  .result-section {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .result-section:last-child { border-bottom: none; }
-  .result-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 13px;
-    letter-spacing: 2px;
-    color: var(--text2);
-    margin-bottom: 10px;
-  }
-  .result-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 0;
-    font-size: 13px;
-  }
-  .result-row .rl { color: var(--text2); }
-  .result-row .rv {
-    font-weight: 600;
-    font-size: 14px;
-  }
-  .result-row .rv.big {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 0.5px;
-  }
-  .result-row .rv.accent { color: var(--accent); }
-  .result-row .rv.green { color: var(--green); }
-  .result-row .rv.red { color: var(--red); }
-  .result-row .rv.blue { color: var(--blue); }
-
-  .alert-row {
-    background: rgba(255,77,109,0.1);
-    border: 1px solid rgba(255,77,109,0.3);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 12px;
-    color: var(--red);
-    margin-top: 8px;
-  }
-  .ok-row {
-    background: rgba(34,217,122,0.08);
-    border: 1px solid rgba(34,217,122,0.2);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 12px;
-    color: var(--green);
-    margin-top: 8px;
-  }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 6px 0;
-  }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 4px; height: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  @media (max-width: 480px) {
-    .logo span { display: none; }
-    .price-grid { grid-template-columns: 1fr 1fr; }
-    .calc-inputs { grid-template-columns: 1fr; }
-    .calc-input-group.full { grid-column: span 1; }
-  }
-
-  /* PRECIO DE VENTA (interno) */
-  .precio-venta-box {
-    background: rgba(232,160,32,0.06);
-    border: 1px dashed rgba(232,160,32,0.35);
-    border-radius: 10px;
-    padding: 10px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    grid-column: span 2;
-  }
-  .precio-venta-box label {
-    font-size: 10px !important;
-    color: var(--accent2) !important;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .precio-venta-box input {
-    background: transparent !important;
-    border: none !important;
-    border-bottom: 1px solid rgba(232,160,32,0.3) !important;
-    border-radius: 0 !important;
-    padding: 4px 2px !important;
-    color: var(--accent2) !important;
-    font-size: 18px !important;
-    font-weight: 700 !important;
-    width: 100%;
-  }
-  .precio-venta-box input:focus { border-bottom-color: var(--accent) !important; outline: none; }
-  .lock-icon { font-size: 10px; opacity: 0.6; }
-
-  /* WHATSAPP BUTTON */
-  .wa-btn {
-    width: 100%;
-    background: #25D366;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 13px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: opacity 0.2s, transform 0.1s;
-    margin-top: 4px;
-  }
-  .wa-btn:hover { opacity: 0.9; }
-  .wa-btn:active { transform: scale(0.98); }
-  .wa-btn:disabled { background: var(--surface2); color: var(--text2); cursor: not-allowed; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-inner">
-    <div class="logo">ONE QUEST<span>Lista de Precios</span></div>
-    <div class="tabs">
-      <button class="tab active" onclick="showView('list')">🚗 Autos</button>
-      <button class="tab" onclick="showView('calc')">🧮 Calculadora</button>
+  <div class="brand">
+    <div>
+      <h1>One Quest Automotores</h1>
+      <span>Lista de precios y financiación</span>
     </div>
+    <div class="status" id="status">sincronizado</div>
   </div>
+  <div class="toolbar">
+    <input class="search" id="search" placeholder="Buscar modelo..." />
+    <button class="btn-add" id="btnAdd">+</button>
+  </div>
+  <div class="count" id="count"></div>
 </header>
 
-<main>
-  <!-- LIST VIEW -->
-  <div class="list-view" id="listView">
-    <div class="controls">
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Buscar por marca, modelo..." oninput="filterCars()">
-      </div>
-      <div class="filter-btns">
-        <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">Todos</button>
-        <button class="filter-btn" data-filter="0km" onclick="setFilter('0km', this)">0KM</button>
-        <button class="filter-btn" data-filter="used" onclick="setFilter('used', this)">Usados</button>
-      </div>
-    </div>
-    <div class="stats-bar" id="statsBar"></div>
-    <div class="cars-grid" id="carsGrid"></div>
-  </div>
+<main id="list"></main>
 
-  <!-- CALCULATOR VIEW -->
-  <div class="calc-view" id="calcView">
-    <div class="calc-panel">
-      <div class="calc-car-selector">
-        <label>Seleccionar vehículo</label>
-        <select id="calcCarSelect" onchange="updateCalc()">
-          <option value="">— Elegir auto —</option>
-        </select>
-      </div>
-
-      <div class="calc-section-title">CLIENTE</div>
-      <div class="calc-inputs">
-        <div class="calc-input-group full">
-          <label>Nombre del cliente (opcional)</label>
-          <input type="text" id="calcNombre" placeholder="Ej: Juan García" oninput="updateCalc()">
-        </div>
-      </div>
-
-      <div class="calc-section-title">PRECIO INTERNO 🔒</div>
-      <div class="calc-inputs">
-        <div class="calc-input-group full">
-          <label>Precio base del vehículo ($)</label>
-          <input type="number" id="calcPrecioBase" placeholder="0" oninput="updateCalc()" step="10000">
-        </div>
-        <div class="calc-input-group">
-          <label>Bonificación ($)</label>
-          <input type="number" id="calcBono" placeholder="0" oninput="updateCalc()" step="10000">
-        </div>
-        <div class="calc-input-group">
-          <label>Transferencia ($)</label>
-          <input type="number" id="calcTransf" placeholder="0" oninput="updateCalc()" step="1000">
-        </div>
-        <div class="precio-venta-box">
-          <label><span class="lock-icon">👁</span> PRECIO DE VENTA AL CLIENTE ($) — solo vos lo ves</label>
-          <input type="number" id="calcPrecioVenta" placeholder="Dejar vacío = usar precio base" oninput="updateCalc()" step="10000">
-        </div>
-      </div>
-
-      <div class="calc-section-title">FINANCIACIÓN</div>
-      <div class="calc-inputs">
-        <div class="calc-input-group full">
-          <label>Entrega del cliente ($)</label>
-          <input type="number" id="calcEntrega" placeholder="0" oninput="updateCalc()" step="10000">
-        </div>
-        <div class="calc-input-group">
-          <label>Máx. a financiar ($)</label>
-          <input type="number" id="calcMaxFin" placeholder="0" oninput="updateCalc()" step="10000">
-        </div>
-        <div class="calc-input-group">
-          <label>Cuotas</label>
-          <select id="calcCuotas" onchange="updateCalc()">
-            <option value="12">12 cuotas</option>
-            <option value="18">18 cuotas</option>
-            <option value="24" selected>24 cuotas</option>
-            <option value="36">36 cuotas</option>
-            <option value="48">48 cuotas</option>
-            <option value="60">60 cuotas</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="calc-toggle-row">
-        <div class="toggle" id="toggleTransf" onclick="toggleTransferencia()"></div>
-        <span class="toggle-label">Incluir transferencia en la entrega</span>
-      </div>
-
-      <div class="calc-results" id="calcResults">
-        <div class="result-section">
-          <div style="color: var(--text2); font-size: 13px; text-align:center; padding: 8px 0;">Seleccioná un vehículo o ingresá datos para ver el análisis</div>
-        </div>
-      </div>
-      <div style="padding:12px 16px 16px;">
-        <button class="wa-btn" id="waBtnShare" onclick="compartirWhatsApp()" disabled>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.557 4.126 1.532 5.862L.057 23.428a.75.75 0 00.916.916l5.569-1.474A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.65-.52-5.163-1.428l-.36-.214-3.308.876.876-3.307-.214-.361A9.974 9.974 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-          Enviar presupuesto por WhatsApp
-        </button>
-      </div>
-    </div>
-  </div>
-</main>
+<div class="toast" id="toast"></div>
 
 <script>
-const CARS = [
-  { name: "VOLKSWAGEN TAKE UP", year: "2018", valor: 15400000, transferencia: 713200, valorFinal: 16113200, maxFinanciar: 9060000, entregaSin: 6340000, entregaCon: 7053200, bono: 1000000, features: "VOLKSWAGEN UP TAKE 1.0 AA 5P 2018 109.000KM (AIRE Y DIRECCION, DISTRIBUCION)" },
-  { name: "FIESTA DIESEL 5P", year: "1997", valor: 4900000, transferencia: 560000, valorFinal: 5460000, maxFinanciar: 2600000, entregaSin: 2300000, entregaCon: 2860000, bono: 900000, features: "FORD FIESTA 1.8 DIESEL 5P ALZACRISTALES ELECTRICOS, CIERRE CENTRALIZADO, CALEFACCION, DIRECCION ASISTIDA" },
-  { name: "FIESTA AMBIENTE PLUS MP3", year: "2012", valor: 9800000, transferencia: 650000, valorFinal: 10450000, maxFinanciar: 4300000, entregaSin: 5500000, entregaCon: 6150000, bono: 800000, features: "186.000 KMS TODOS LOS SERVICE AL DIA MOTOR 1.6 CADENERO, PANTALLA Y CAMARA DE RETROCESO (AGREGADA) AIRE Y DIRECCION 5 PTAS" },
-  { name: "FIORINO ENDURANCE 1.3", year: "0KM", valor: 33400000, transferencia: 1550000, valorFinal: 34950000, maxFinanciar: 24000000, entregaSin: 9400000, entregaCon: 10950000, bono: 5000000, features: "0KM CLIMATIZADOR, CIERRE CENTRALIZADO, ALARMA, LLANTAS DE ALEACION, CAMARA Y SENSOR DE ESTACIONAMIENTO, ALZACRISTALES ELECTRICOS" },
-  { name: "FORD KA FLY VIRAL 1.0L", year: "2009", valor: 7700000, transferencia: 469500, valorFinal: 8169500, maxFinanciar: 3248000, entregaSin: 4452000, entregaCon: 4921500, bono: null, features: "216.000 KM, DIRECCION ASISTIDA, CIERRE CENTRALIZADO, ALARMA, EMBRAGUE, BATERIA NUEVA. NAFTA" },
-  { name: "FIESTA AMB 5 PTAS", year: "2006", valor: 7800000, transferencia: 580000, valorFinal: 8380000, maxFinanciar: 3040000, entregaSin: 4760000, entregaCon: 5340000, bono: null, features: "170.000 KM AIRE ACONDICIONADO, DIRECCION ASISTIDA, ALZACRISTALES ELECTRICOS, CIERRE CENTRALIZADO NAFTA Y GNC" },
-  { name: "PEUGEOT 207 COMPACT XS 1.4 5P", year: "2010", valor: 9500000, transferencia: 600000, valorFinal: 10100000, maxFinanciar: 3560000, entregaSin: 5940000, entregaCon: 6540000, bono: 500000, features: "175 MIL KMS AIRE, DIRECCION, CIERRE, LLANTAS, IMPECABLE" },
-  { name: "SURAN 1.6 TRENDLINE", year: "2014", valor: 14600000, transferencia: 720000, valorFinal: 15320000, maxFinanciar: 6600000, entregaSin: 8000000, entregaCon: 8720000, bono: 600000, features: "123.000 KM AIRE ACONDICIONADO, DIRECCIÓN ASISTIDA, CIERRE CENTRALIZADO, VIDRIOS ELECTRICOS, SENSOR DE ESTACIONAMIENTO, ALARMA, FRENOS ABS" },
-  { name: "GOL POWER 1.4 3P", year: "2013", valor: 10500000, transferencia: 640000, valorFinal: 11140000, maxFinanciar: 4600000, entregaSin: 5900000, entregaCon: 6540000, bono: 500000, features: "TIENE AIRE Y CIERRE CENTRALIZADO, 200 MIL KMS 1.4 NAFTA" },
-  { name: "FIAT CRONOS LIKE 1.3 0KM", year: "0KM", valor: 37900000, transferencia: 1700000, valorFinal: 39600000, maxFinanciar: 28000000, entregaSin: 9900000, entregaCon: 11600000, bono: 10000000, features: "1.3 NAFTA / AIRE ACONDICIONADO, DIRECCIÓN ASISTIDA, CIERRE CENTRALIZADO, CONTROL DE VELOCIDAD CRUCERO, FRENOS ABS" },
-  { name: "FORD ECOSPORT 2.0 XLS", year: "2010", valor: 11500000, transferencia: 650000, valorFinal: 12150000, maxFinanciar: 4280000, entregaSin: 7220000, entregaCon: 7870000, bono: null, features: "146.000 KM AIRE ACONDICIONADO, DIRECCION ASISTIDA, CIERRE CENTRALIZADO, ALARMA, ALZACRISTALES ELECTRICOS 4 PUERTAS, MOTOR 2.0 CADENERO, 2 TUBOS DE GNC" },
-  { name: "FIESTA KD S 5P 1.6 GNC", year: "2015", valor: 16000000, transferencia: 760000, valorFinal: 16760000, maxFinanciar: 6940000, entregaSin: 9060000, entregaCon: 9820000, bono: 1000000, features: "94.000KM AIRE ACONDICIONADO, DIRECCIÓN ASISTIDA, CIERRE CENTRALIZADO, VIDRIOS ELECTRICOS, ALARMA, ABS, AIRBAG" },
-  { name: "SAVEIRO 1.6 L CABINA EXT", year: "2015", valor: 16500000, transferencia: 770000, valorFinal: 17270000, maxFinanciar: 7050000, entregaSin: 9450000, entregaCon: 10220000, bono: 1000000, features: "185.000 KM AIRE, DIRECCION, CIERRE CENTRALIZADO Y EQUIPO DE GNC. FRENOS RECIEN HECHOS, 4 CUBIERTAS EN EXCELENTE ESTADO. MOTOR 1.6 NAFTA C/ GNC" },
-  { name: "GOL TREND PACK 2", year: "2013", valor: 13000000, transferencia: 665000, valorFinal: 13665000, maxFinanciar: 6050000, entregaSin: 6950000, entregaCon: 7615000, bono: 500000, features: "128.000 KM / 1.6 NAFTA / AIRE ACONDICIONADO, DIRECCIÓN ASISTIDA, CIERRE CENTRALIZADO, COMPUTADORA DE ABORDO, ALARMA" },
-  { name: "PARTNER PATAGONICA 1.6 NAFTA C/GNC", year: "2016", valor: 18500000, transferencia: 841000, valorFinal: 19341000, maxFinanciar: 9360000, entregaSin: 9140000, entregaCon: 9981000, bono: 1100000, features: "113.000 KM / NAFTA Y GNC, AIRE ACONDICIONADO, DIRECCIÓN ASISTIDA, VIDRIOS ELECTRICOS, SENSOR DE ESTACIONAMIENTO, ALARMA" },
-  { name: "FIAT FASTBACK TURBO 270 AT", year: "0KM", valor: 49600000, transferencia: 2300000, valorFinal: 51900000, maxFinanciar: 26000000, entregaSin: 23600000, entregaCon: 25900000, bono: 10000000, features: "0 KM / 1.3 NAFTA, CLIMATIZADOR AUT, DIRECCIÓN ASISTIDA, CIERRE CENTRALIZADO, ENCENDIDO SIN LLAVES, CAJA AUT, MOTOR TURBO" },
-  { name: "CRONOS DRIVE 1.3 PACK PLUS", year: "0KM", valor: 41900000, transferencia: 1800000, valorFinal: 43700000, maxFinanciar: 28000000, entregaSin: 13900000, entregaCon: 15700000, bono: 10000000, features: "" },
-  { name: "CRONOS DRIVE CVT 1.3", year: "0KM", valor: 42900000, transferencia: 1850000, valorFinal: 44750000, maxFinanciar: 28000000, entregaSin: 14900000, entregaCon: 16750000, bono: 10000000, features: "" },
-  { name: "TITANO ENDURANCE 4X4", year: "0KM", valor: 56000000, transferencia: 2300000, valorFinal: 58300000, maxFinanciar: 30000000, entregaSin: 26000000, entregaCon: 28300000, bono: 10000000, features: "" },
-  { name: "FORD KA S 2017", year: "2017", valor: 14800000, transferencia: 790000, valorFinal: 15590000, maxFinanciar: 8568000, entregaSin: 6232000, entregaCon: 7022000, bono: 200000, features: "167.000 KM" },
-  { name: "FORD FOCUS S 1.6 5P", year: "2016", valor: 17900000, transferencia: 950000, valorFinal: 18850000, maxFinanciar: 10128000, entregaSin: 7772000, entregaCon: 8722000, bono: 500000, features: "130.000 KM" },
-  { name: "RENAULT DUSTER OROCH DYNAMIQUE", year: "2016", valor: 19000000, transferencia: 900000, valorFinal: 19900000, maxFinanciar: 9840000, entregaSin: 9160000, entregaCon: 10060000, bono: 500000, features: "177.000 KM" },
-  { name: "ARGO DRIVE 1.3", year: "0KM", valor: 38500000, transferencia: 1800000, valorFinal: 40300000, maxFinanciar: 24000000, entregaSin: 14500000, entregaCon: 16300000, bono: 10000000, features: "" },
-  { name: "PULSE AUDACE 1.0T CVT", year: "0KM", valor: 46200000, transferencia: 2200000, valorFinal: 48400000, maxFinanciar: 26000000, entregaSin: 20200000, entregaCon: 22400000, bono: 10000000, features: "" },
-  { name: "PEUGEOT 207 COMPACT XS 1.4 5P (2014)", year: "2014", valor: 10500000, transferencia: 650000, valorFinal: 11150000, maxFinanciar: 4775000, entregaSin: 5725000, entregaCon: 6375000, bono: null, features: "149.000 KM" },
-  { name: "STRADA FREEDOM CABINA SIMPLE", year: "0KM", valor: 39000000, transferencia: 1800000, valorFinal: 40800000, maxFinanciar: 24000000, entregaSin: 15000000, entregaCon: 16800000, bono: 10000000, features: "" },
-  { name: "VENTO 2.5 LUXURY TIPTRONIC 170CV", year: "2014", valor: 19000000, transferencia: 900000, valorFinal: 19900000, maxFinanciar: 9400000, entregaSin: 9600000, entregaCon: 10500000, bono: null, features: "" },
-  { name: "FIAT PALIO ATTRACTIVE 1.4 8V", year: "2014", valor: 12800000, transferencia: 750000, valorFinal: 13550000, maxFinanciar: 5775000, entregaSin: 7025000, entregaCon: 7775000, bono: 300000, features: "" },
-  { name: "ARGO DRIVE 1.3 CVT", year: "0KM", valor: 40800000, transferencia: 1850000, valorFinal: 42650000, maxFinanciar: 24000000, entregaSin: 16800000, entregaCon: 18650000, bono: 10000000, features: "" },
-  { name: "CRONOS 1.3 PACK PLUS AUTOPATENT", year: "0KM", valor: 39500000, transferencia: 1800000, valorFinal: 41300000, maxFinanciar: 28000000, entregaSin: 11500000, entregaCon: 13300000, bono: 10000000, features: "" },
-];
+const SEED = [{"modelo": "VOLKSWAGEN TAKE UP", "anio": 2018, "valor": 15400000, "transferencia": 713200, "valor_final": 16113200, "max_financiar": 8700000, "entrega_min": 7413200, "bonificacion": 1000000, "outlet_efectivo": 14400000, "caracteristicas": "VOLKSWAGEN UP TAKE 1.0 AA 5P 2018 109.000KM (AIRE Y DIRECCION, DISTRIBUCION, )", "id": 1}, {"modelo": "FIESTA AMBIENTE PLUS MP3", "anio": 2012, "valor": 9000000, "transferencia": 650000, "valor_final": 9650000, "max_financiar": 4200000, "entrega_min": 5450000, "bonificacion": 650000, "outlet_efectivo": 8350000, "caracteristicas": "186.000 KMS TODOS LOS SERVICE AL DIA MOTOR 1.6 CADENERO, PANTALLA Y CAMARA DE RETROSESO (AGREGADA) AIRE Y DIRECCION 5 PTAS", "id": 2}, {"modelo": "FORD KA FLY VIRAL 1.0L", "anio": 2009, "valor": 7700000, "transferencia": 469500, "valor_final": 8169500, "max_financiar": 2667000, "entrega_min": 5502500, "bonificacion": 300000, "outlet_efectivo": 7400000, "caracteristicas": "216.000 KM, DIRECCION ASISTIDA, CIERRE CENTRALIZADO, ALARMA, EMBRAGE, BATERIA NUEVA. NAFTA", "id": 3}, {"modelo": "FIESTA AMB 5 PTAS", "anio": 2006, "valor": 7800000, "transferencia": 580000, "valor_final": 8380000, "max_financiar": 2590000, "entrega_min": 5790000, "bonificacion": 500000, "outlet_efectivo": 7300000, "caracteristicas": "170.000 KM AIRE ACONDICIONADO, DIRECCION ASISTIDA, ALZACRISTALES ELECTRICOS, CIERRE CENTRALIZADO NAFTA Y GNC", "id": 4}, {"modelo": "PEUGEOT 207 COMPACT XS 1.4 5P", "anio": 2010, "valor": 9500000, "transferencia": 600000, "valor_final": 10100000, "max_financiar": 2975000, "entrega_min": 7125000, "bonificacion": 500000, "outlet_efectivo": 9000000, "caracteristicas": "175 MIL KMS AIRE, DIRECCION, CIERRE, LLANTAS, IMPECABLE", "id": 5}, {"modelo": "Suran 1.6 Trendline", "anio": 2014, "valor": 14600000, "transferencia": 720000, "valor_final": 15320000, "max_financiar": 6450000, "entrega_min": 8870000, "bonificacion": 1000000, "outlet_efectivo": 13600000, "caracteristicas": "123.000 KM AIRE ACONDICIONADO, DIRECCIÒN ASISTIDA, CIERRE CENTRALIZADO, VIDRIOS ELECTRICOS, SENSOR DE ESTACIONAMIENTO, ALARMA, FRENOS ABS", "id": 6}, {"modelo": "GOL POWER 1.4 3P", "anio": 2013, "valor": 10700000, "transferencia": 550000, "valor_final": 11250000, "max_financiar": 4525000, "entrega_min": 6725000, "bonificacion": 700000, "outlet_efectivo": 10000000, "caracteristicas": "VALOR PROMOCION CON TRANSFERENCIA INCLUIDA TIENE AIRE Y CIERRE CENTRALIZADO, 200 MIL KMS 1.4 NAFTA", "id": 7}, {"modelo": "FORD ECOSPORT 2.0 XLS", "anio": 2010, "valor": 11500000, "transferencia": 650000, "valor_final": 12150000, "max_financiar": 3675000, "entrega_min": 8475000, "bonificacion": null, "outlet_efectivo": null, "caracteristicas": "146.000 km aire acondicionado, direccion asistida, cierre centralizado, alarma, alzacristales electricos 4 puertas, motor 2.0 cadenero, 2 tubos de gnc.", "id": 8}, {"modelo": "FIESTA KD S 5P 1.6 GNC", "anio": 2015, "valor": 16000000, "transferencia": 760000, "valor_final": 16760000, "max_financiar": 6840000, "entrega_min": 9920000, "bonificacion": 1000000, "outlet_efectivo": 15000000, "caracteristicas": "94.000KM AIRE ACONDICIONADO, DIRECCIÒN ASISTIDA, CIERRE CENTRALIZADO, VIDRIOS ELECTRICOS, ALARMA , ABS, AIRBAG", "id": 9}, {"modelo": "SAVEIRO 1.6 L CABINA EXT", "anio": 2015, "valor": 16500000, "transferencia": 770000, "valor_final": 17270000, "max_financiar": 7100000, "entrega_min": 10170000, "bonificacion": 1200000, "outlet_efectivo": 15300000, "caracteristicas": "185000 KM AIRE, DIRECCION , CIERRE CENTRALIZADO Y EQUIPO DE GNC. FRENOS RECIEN HECHOS, 4 CUBIERTAS EN EXCELENTE ESTADO. MOTOR 1.6 NAFTA C/ GNC", "id": 10}, {"modelo": "GOL TREND PACK 2", "anio": 2013, "valor": 13000000, "transferencia": 665000, "valor_final": 13665000, "max_financiar": 6075000, "entrega_min": 7590000, "bonificacion": 500000, "outlet_efectivo": null, "caracteristicas": "128.000 KM / 1.6 NAFTA / AIRE ACONDICIONADO, DIRECCIÒN ASISTIDA, CIERRE CENTRALIZADO, COMPUTADORA DE ABORDO, ALARMA", "id": 11}, {"modelo": "PARTNER PATAGONICA 1.6 NAFTA C/GNC", "anio": 2016, "valor": 18500000, "transferencia": 841000, "valor_final": 19341000, "max_financiar": 8910000, "entrega_min": 10431000, "bonificacion": 1100000, "outlet_efectivo": 17400000, "caracteristicas": "113.000 KM / NAFTA Y GNC, AIRE ACONDICIONADO, DIRECCIÒN ASISTIDA, VIDRIOS ELECTRICOS, SENSOR DE ESTACIONAMIENTO, ALARMA", "id": 12}, {"modelo": "FIAT 600 Hybrid", "anio": "0KM", "valor": 48300000, "transferencia": 2500000, "valor_final": 50800000, "max_financiar": 26000000, "entrega_min": 24800000, "bonificacion": 10000000, "outlet_efectivo": null, "caracteristicas": "0 KM / 1.3 NAFTA, CLIMATIZADOR AUT, DIRECCIÒN ASISTIDA, CIERRE CENTRALIZADO, ENCENDIDO SIN LLAVES, CAJA AUT, MOTOR TURBO", "id": 13}, {"modelo": "FORD KA S 2017", "anio": 2017, "valor": 14800000, "transferencia": 790000, "valor_final": 15590000, "max_financiar": 7790000, "entrega_min": 7800000, "bonificacion": 200000, "outlet_efectivo": null, "caracteristicas": "167.000 km", "id": 14}, {"modelo": "ARGO DRIVE 1.3", "anio": "0KM", "valor": 38300000, "transferencia": 1800000, "valor_final": 40100000, "max_financiar": 24000000, "entrega_min": 16100000, "bonificacion": 10000000, "outlet_efectivo": null, "caracteristicas": null, "id": 15}, {"modelo": "PULSE AUDACE 1.0T CVT", "anio": "0KM", "valor": 47300000, "transferencia": 2200000, "valor_final": 49500000, "max_financiar": 26000000, "entrega_min": 23500000, "bonificacion": 10000000, "outlet_efectivo": null, "caracteristicas": null, "id": 16}, {"modelo": "STRADA Volcano", "anio": "0KM", "valor": 48300000, "transferencia": 2300000, "valor_final": 50600000, "max_financiar": 24000000, "entrega_min": 26600000, "bonificacion": 10000000, "outlet_efectivo": null, "caracteristicas": null, "id": 17}, {"modelo": "FIAT PALIO ATTRACTIVE 1.4 8V", "anio": 2014, "valor": 11500000, "transferencia": 750000, "valor_final": 12250000, "max_financiar": 6050000, "entrega_min": 6200000, "bonificacion": null, "outlet_efectivo": 11500000, "caracteristicas": null, "id": 18}, {"modelo": "ARGO DRIVE 1.3 CVT", "anio": "0KM", "valor": 42100000, "transferencia": 1850000, "valor_final": 43950000, "max_financiar": 24000000, "entrega_min": 19950000, "bonificacion": 10000000, "outlet_efectivo": null, "caracteristicas": null, "id": 19}, {"modelo": "BASALT FEEL 1.3", "anio": "0KM", "valor": 40500000, "transferencia": 1900000, "valor_final": 42400000, "max_financiar": 28000000, "entrega_min": 14400000, "bonificacion": 10000000, "outlet_efectivo": null, "caracteristicas": null, "id": 20}, {"modelo": "GOL TREND COMFORTLINE 2017 5 PTAS", "anio": 2017, "valor": 15500000, "transferencia": 800000, "valor_final": 16300000, "max_financiar": 8497500, "entrega_min": 7802500, "bonificacion": 200000, "outlet_efectivo": null, "caracteristicas": "140.000 kms UNICA MANO", "id": 21}, {"modelo": "CRONOS PRESICION CVT 2023", "anio": 2023, "valor": 24000000, "transferencia": 1000000, "valor_final": 25000000, "max_financiar": 16250000, "entrega_min": 8750000, "bonificacion": null, "outlet_efectivo": null, "caracteristicas": null, "id": 22}, {"modelo": "DUSTER DYNAMIQUE 2017 (VERDE)", "anio": 2017, "valor": 19000000, "transferencia": 900000, "valor_final": 19900000, "max_financiar": 10680000, "entrega_min": 9220000, "bonificacion": null, "outlet_efectivo": null, "caracteristicas": null, "id": 23}, {"modelo": "DUSTER EXPRESSION 1.6 2018 (BORDO)", "anio": 2018, "valor": 19000000, "transferencia": 900000, "valor_final": 19900000, "max_financiar": 10980000, "entrega_min": 8920000, "bonificacion": 400000, "outlet_efectivo": null, "caracteristicas": null, "id": 24}, {"modelo": "VOLKSWAGEN MOVE UP", "anio": 2015, "valor": 13000000, "transferencia": 800000, "valor_final": 13800000, "max_financiar": 6550000, "entrega_min": 7250000, "bonificacion": null, "outlet_efectivo": null, "caracteristicas": null, "id": 25}, {"modelo": "RENAULT LOGAN AUTHENTIQUE PLUS", "anio": 2016, "valor": 13000000, "transferencia": 700000, "valor_final": 13700000, "max_financiar": 7260000, "entrega_min": 6440000, "bonificacion": null, "outlet_efectivo": null, "caracteristicas": null, "id": 26}, {"modelo": "CELTA LS 2012 1.4 5P", "anio": 2012, "valor": 10000000, "transferencia": 700000, "valor_final": 10700000, "max_financiar": 4000000, "entrega_min": 6700000, "bonificacion": null, "outlet_efectivo": null, "caracteristicas": null, "id": 27}, {"modelo": "TOYOTA COROLLA XLI 1.8 CVT", "anio": 2016, "valor": 21000000, "transferencia": 900000, "valor_final": 21900000, "max_financiar": 11000000, "entrega_min": 10900000, "bonificacion": null, "outlet_efectivo": null, "caracteristicas": null, "id": 28}];
 
-// Sort: 0KM first alphabetically, then used alphabetically
-CARS.sort((a, b) => {
-  const aNew = a.year === '0KM' || a.year === '0km';
-  const bNew = b.year === '0KM' || b.year === '0km';
-  if (aNew && !bNew) return -1;
-  if (!aNew && bNew) return 1;
-  return a.name.localeCompare(b.name);
-});
+const STORAGE_KEY = 'onequest-precios-v1';
+let data = [];
+let openId = null;
+let saveTimer = null;
 
-let currentFilter = 'all';
-let inclTransf = false;
+const $list = document.getElementById('list');
+const $search = document.getElementById('search');
+const $count = document.getElementById('count');
+const $status = document.getElementById('status');
+const $toast = document.getElementById('toast');
 
-function getBrandEmoji(name) {
-  name = name.toLowerCase();
-  if (name.includes('ford') || name.includes('fiesta') || name.includes('focus') || name.includes('ecosport') || name.includes('ka ') || name.includes('ka s') || name.includes('saveiro') === false && name.includes('strada') === false && name.includes('partner') === false && name.includes('fiorino') === false) {
-    if (name.includes('volkswagen') || name.includes('gol') || name.includes('suran') || name.includes('saveiro') || name.includes('vento') || name.includes('take up') || name.includes('cronos') === false && (name.includes('gol') || name.includes('suran') || name.includes('saveiro') || name.includes('vento'))) {}
+function money(n){
+  if(n === null || n === undefined || n === '') return '-';
+  const num = Number(n);
+  if(isNaN(num)) return n;
+  return '$' + num.toLocaleString('es-AR');
+}
+
+function showToast(msg){
+  $toast.textContent = msg;
+  $toast.classList.add('show');
+  setTimeout(()=> $toast.classList.remove('show'), 1800);
+}
+
+function setStatus(mode){
+  if(mode === 'saving'){
+    $status.textContent = 'guardando...';
+    $status.className = 'status saving';
+  } else if(mode === 'error'){
+    $status.textContent = 'sin conexión';
+    $status.className = 'status error';
+  } else {
+    $status.textContent = 'sincronizado';
+    $status.className = 'status';
   }
-  if (name.includes('volkswagen') || name.includes('gol') || name.includes('suran') || name.includes('saveiro') || name.includes('vento') || name.includes('take up') || name.includes('argo') === false && name.includes('cronos') === false && name.includes('fiorino') === false && name.includes('palio') === false && name.includes('fastback') === false && name.includes('pulse') === false && name.includes('strada') === false) {
-    if (name.includes('gol') || name.includes('suran') || name.includes('saveiro') || name.includes('vento') || name.includes('take up') || name.includes('volkswagen')) return '🔵';
+}
+
+async function loadData(){
+  try{
+    const result = await window.storage.get(STORAGE_KEY, false);
+    if(result && result.value){
+      data = JSON.parse(result.value);
+      setStatus('ok');
+    } else {
+      data = SEED;
+      await persist(true);
+    }
+  } catch(e){
+    data = SEED;
+    setStatus('ok');
   }
-  if (name.includes('fiat') || name.includes('cronos') || name.includes('fiorino') || name.includes('palio') || name.includes('fastback') || name.includes('pulse') || name.includes('strada') || name.includes('argo')) return '🟥';
-  if (name.includes('ford') || name.includes('fiesta') || name.includes('ka ') || name.includes('focus') || name.includes('ecosport') || name.includes('ka s')) return '🔷';
-  if (name.includes('peugeot')) return '🦁';
-  if (name.includes('renault') || name.includes('duster') || name.includes('partner') === false && name.includes('renault')) return '🔶';
-  if (name.includes('partner') || name.includes('citroen')) return '⚙️';
-  if (name.includes('toyota')) return '🔴';
-  if (name.includes('chevrolet') || name.includes('corsa')) return '⭐';
-  if (name.includes('suran') || name.includes('gol') || name.includes('saveiro') || name.includes('vento') || name.includes('take up')) return '🔵';
-  return '🚗';
+  render();
 }
 
-function getBrand(name) {
-  name = name.toLowerCase();
-  if (name.includes('volkswagen') || name.includes('gol') || name.includes('suran') || name.includes('saveiro') || name.includes('vento') || name.includes('take up')) return 'Volkswagen';
-  if (name.includes('fiat') || name.includes('cronos') || name.includes('fiorino') || name.includes('palio') || name.includes('fastback') || name.includes('pulse') || name.includes('strada') || name.includes('argo')) return 'Fiat';
-  if (name.includes('ford') || name.includes('fiesta') || name.includes('ecosport') || name.includes('focus') || name.includes('ka ') || name.includes('ka s')) return 'Ford';
-  if (name.includes('peugeot')) return 'Peugeot';
-  if (name.includes('renault') || name.includes('duster') || name.includes('oroch')) return 'Renault';
-  if (name.includes('partner') || name.includes('citroen')) return 'Citroën/Peugeot';
-  if (name.includes('toyota') || name.includes('hilux')) return 'Toyota';
-  if (name.includes('chevrolet') || name.includes('corsa')) return 'Chevrolet';
-  return 'Otro';
+async function persist(silent){
+  setStatus('saving');
+  try{
+    await window.storage.set(STORAGE_KEY, JSON.stringify(data), false);
+    setStatus('ok');
+    if(!silent) showToast('Guardado');
+  } catch(e){
+    setStatus('error');
+    if(!silent) showToast('No se pudo guardar, reintentá');
+  }
 }
 
-function fmt(n) {
-  if (!n && n !== 0) return '—';
-  return '$' + Math.round(n).toLocaleString('es-AR');
+function scheduleSave(){
+  setStatus('saving');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=> persist(false), 400);
 }
 
-function renderCards(list) {
-  const grid = document.getElementById('carsGrid');
-  if (list.length === 0) {
-    grid.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>No se encontraron resultados</p></div>`;
+function nextId(){
+  return data.reduce((m,v)=> Math.max(m, v.id||0), 0) + 1;
+}
+
+function render(){
+  const q = $search.value.trim().toLowerCase();
+  const filtered = data.filter(v => (v.modelo||'').toLowerCase().includes(q));
+  $count.textContent = filtered.length + ' vehículo' + (filtered.length===1?'':'s');
+
+  if(filtered.length === 0){
+    $list.innerHTML = '<div class="empty">No hay vehículos que coincidan</div>';
     return;
   }
-  grid.innerHTML = list.map((car, i) => {
-    const isNew = car.year === '0KM' || car.year === '0km';
-    const emoji = getBrandEmoji(car.name);
-    return `
-    <div class="car-card" id="card-${i}" onclick="toggleCard(${i})">
-      <div class="car-card-header">
-        <div class="brand-badge">${emoji}</div>
-        <div class="car-main-info">
-          <div class="car-name">${car.name}</div>
-          <div class="car-year-type">
-            ${isNew ? '<span class="okm-tag">✦ 0 KM</span>' : `<span class="year-tag">${car.year}</span>`}
-            <span style="font-size:11px;color:var(--text2)">${getBrand(car.name)}</span>
-          </div>
-        </div>
-        <div class="car-price-main">
-          <div class="price-label">PRECIO</div>
-          <div class="price-value">${fmt(car.valor)}</div>
-        </div>
-      </div>
-      <div class="car-card-body">
-        <div class="price-grid">
-          <div class="price-item">
-            <div class="price-item-label">Sin Transferencia</div>
-            <div class="price-item-value accent">${fmt(car.valor)}</div>
-          </div>
-          <div class="price-item">
-            <div class="price-item-label">Con Transferencia</div>
-            <div class="price-item-value accent">${fmt(car.valorFinal)}</div>
-          </div>
-          <div class="price-item">
-            <div class="price-item-label">Máx. a Financiar</div>
-            <div class="price-item-value blue">${fmt(car.maxFinanciar)}</div>
-          </div>
-          <div class="price-item">
-            <div class="price-item-label">Entrega mín. c/transf.</div>
-            <div class="price-item-value green">${fmt(car.entregaCon)}</div>
-          </div>
-        </div>
-        ${car.bono ? `<div class="bono-row"><span class="bono-label">✦ BONIFICACIÓN</span><span class="bono-value">${fmt(car.bono)}</span></div>` : ''}
-        ${car.features ? `<div class="car-features">📋 ${car.features}</div>` : ''}
-        <div class="calc-btn-row">
-          <button class="calc-btn" onclick="event.stopPropagation(); loadInCalc(${i})">🧮 Calcular financiación</button>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-  // Update stats
-  const total = list.length;
-  const okm = list.filter(c => c.year === '0KM' || c.year === '0km').length;
-  const used = total - okm;
-  const minP = Math.min(...list.map(c => c.valor));
-  const maxP = Math.max(...list.map(c => c.valor));
-  document.getElementById('statsBar').innerHTML = `
-    <div class="stat-chip"><strong>${total}</strong> vehículos</div>
-    <div class="stat-chip"><strong>${okm}</strong> 0KM / <strong>${used}</strong> usados</div>
-    <div class="stat-chip">Desde <strong>${fmt(minP)}</strong></div>
-    <div class="stat-chip">Hasta <strong>${fmt(maxP)}</strong></div>
-  `;
-}
 
-function toggleCard(i) {
-  const card = document.getElementById('card-' + i);
-  card.classList.toggle('expanded');
-}
+  $list.innerHTML = filtered.map(v => cardHTML(v)).join('');
 
-function loadInCalc(i) {
-  const car = CARS[i];
-  showView('calc');
-  document.getElementById('calcCarSelect').value = i;
-  document.getElementById('calcPrecioBase').value = car.valor;
-  document.getElementById('calcBono').value = car.bono || 0;
-  document.getElementById('calcTransf').value = car.transferencia;
-  document.getElementById('calcMaxFin').value = car.maxFinanciar;
-  document.getElementById('calcEntrega').value = '';
-  document.getElementById('calcPrecioVenta').value = '';
-  updateCalc();
-}
+  filtered.forEach(v => {
+    const card = document.getElementById('card-'+v.id);
+    const head = card.querySelector('.card-head');
+    head.addEventListener('click', () => toggleCard(v.id));
 
-function filterCars() {
-  const q = document.getElementById('searchInput').value.toLowerCase().trim();
-  let filtered = CARS;
-  if (currentFilter === '0km') filtered = filtered.filter(c => c.year === '0KM' || c.year === '0km');
-  if (currentFilter === 'used') filtered = filtered.filter(c => c.year !== '0KM' && c.year !== '0km');
-  if (q) filtered = filtered.filter(c => c.name.toLowerCase().includes(q) || getBrand(c.name).toLowerCase().includes(q));
-  renderCards(filtered);
-}
+    card.querySelectorAll('[data-field]').forEach(input => {
+      input.addEventListener('input', () => onFieldChange(v.id, input.dataset.field, input));
+    });
 
-function setFilter(f, btn) {
-  currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  filterCars();
-}
-
-function showView(v) {
-  document.getElementById('listView').classList.toggle('hidden', v !== 'list');
-  document.getElementById('calcView').classList.toggle('active', v === 'calc');
-  document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (i === 0 && v === 'list') || (i === 1 && v === 'calc')));
-}
-
-// Populate car selector in calc
-function populateCalcSelect() {
-  const sel = document.getElementById('calcCarSelect');
-  CARS.forEach((car, i) => {
-    const opt = document.createElement('option');
-    opt.value = i;
-    opt.textContent = `${car.name} (${car.year})`;
-    sel.appendChild(opt);
+    card.querySelector('.btn.del').addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteCar(v.id);
+    });
   });
 }
 
-function toggleTransferencia() {
-  inclTransf = !inclTransf;
-  document.getElementById('toggleTransf').classList.toggle('on', inclTransf);
-  updateCalc();
+function cardHTML(v){
+  const isOpen = openId === v.id;
+  return `
+  <div class="card ${isOpen?'open':''}" id="card-${v.id}">
+    <div class="card-head">
+      <div class="card-title">
+        <p class="modelo">${escapeHtml(v.modelo || 'Sin nombre')}</p>
+        <span class="anio">${escapeHtml(String(v.anio ?? ''))}</span>
+      </div>
+      <div class="card-price">
+        <div class="final">${money(v.valor_final)}</div>
+        <div class="entrega">entrega ${money(v.entrega_min)}</div>
+      </div>
+      <div class="chevron">▶</div>
+    </div>
+    <div class="card-body">
+      <div class="row2">
+        <div class="field">
+          <label>Modelo</label>
+          <input type="text" data-field="modelo" value="${escapeAttr(v.modelo)}">
+        </div>
+        <div class="field">
+          <label>Año</label>
+          <input type="text" data-field="anio" value="${escapeAttr(v.anio)}">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Valor</label>
+          <input type="number" data-field="valor" value="${v.valor ?? ''}">
+        </div>
+        <div class="field">
+          <label>Transferencia</label>
+          <input type="number" data-field="transferencia" value="${v.transferencia ?? ''}">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Valor final</label>
+          <input type="number" data-field="valor_final" value="${v.valor_final ?? ''}">
+        </div>
+        <div class="field">
+          <label>Max a financiar</label>
+          <input type="number" data-field="max_financiar" value="${v.max_financiar ?? ''}">
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Entrega mínima</label>
+          <input type="number" data-field="entrega_min" value="${v.entrega_min ?? ''}">
+        </div>
+        <div class="field">
+          <label>Bonificación</label>
+          <input type="number" data-field="bonificacion" value="${v.bonificacion ?? ''}">
+        </div>
+      </div>
+      <div class="field">
+        <label>Outlet efectivo s/gasto</label>
+        <input type="number" data-field="outlet_efectivo" value="${v.outlet_efectivo ?? ''}">
+      </div>
+      <div class="field">
+        <label>Características</label>
+        <textarea data-field="caracteristicas">${escapeHtml(v.caracteristicas ?? '')}</textarea>
+      </div>
+      <div class="actions">
+        <button class="btn del" aria-label="Eliminar">✕</button>
+        <button class="btn save">Listo</button>
+      </div>
+    </div>
+  </div>`;
 }
 
-document.getElementById('calcCarSelect').addEventListener('change', function() {
-  const i = this.value;
-  if (i === '') return;
-  const car = CARS[i];
-  document.getElementById('calcPrecioBase').value = car.valor;
-  document.getElementById('calcBono').value = car.bono || 0;
-  document.getElementById('calcTransf').value = car.transferencia;
-  document.getElementById('calcMaxFin').value = car.maxFinanciar;
-  document.getElementById('calcPrecioVenta').value = '';
-  updateCalc();
-});
+function toggleCard(id){
+  openId = (openId === id) ? null : id;
+  render();
+}
 
-function updateCalc() {
-  const precioBase = parseFloat(document.getElementById('calcPrecioBase').value) || 0;
-  const bono = parseFloat(document.getElementById('calcBono').value) || 0;
-  const transf = parseFloat(document.getElementById('calcTransf').value) || 0;
-  const entrega = parseFloat(document.getElementById('calcEntrega').value) || 0;
-  const maxFin = parseFloat(document.getElementById('calcMaxFin').value) || 0;
-  const cuotas = parseInt(document.getElementById('calcCuotas').value) || 24;
-  const precioVentaRaw = parseFloat(document.getElementById('calcPrecioVenta').value);
-  // Precio que ve el cliente: si pusiste uno manual, ese; si no, precio base
-  const precioVenta = precioVentaRaw > 0 ? precioVentaRaw : precioBase;
-
-  const waBtn = document.getElementById('waBtnShare');
-
-  if (precioBase === 0) {
-    document.getElementById('calcResults').innerHTML = `<div class="result-section"><div style="color:var(--text2);font-size:13px;text-align:center;padding:8px 0">Ingresá el precio del vehículo</div></div>`;
-    waBtn.disabled = true;
-    return;
+function onFieldChange(id, field, input){
+  const v = data.find(x => x.id === id);
+  if(!v) return;
+  let val = input.value;
+  if(input.type === 'number'){
+    val = val === '' ? null : Number(val);
   }
-
-  const precioConTransf = precioBase + transf;
-  const precioNeto = precioBase - bono;
-  const precioNetoConTransf = precioConTransf - bono;
-  // Para cálculo financiero usamos precio base real (interno)
-  let montoAFinanciar;
-  if (inclTransf) {
-    montoAFinanciar = precioNetoConTransf - entrega;
-  } else {
-    montoAFinanciar = precioNeto - entrega;
-  }
-
-  const cuotaEstimada = montoAFinanciar > 0 ? montoAFinanciar / cuotas : 0;
-  const excedeMax = maxFin > 0 && montoAFinanciar > maxFin;
-  const entregaSuficiente = entrega > 0 && montoAFinanciar <= maxFin && montoAFinanciar > 0;
-
-  // Precio de venta al cliente (con o sin transf)
-  const precioVentaConTransf = precioVenta + transf;
-
-  let html = `
-  <div class="result-section">
-    <div class="result-title">RESUMEN INTERNO</div>
-    <div class="result-row"><span class="rl">Precio base</span><span class="rv">${fmt(precioBase)}</span></div>
-    ${bono > 0 ? `<div class="result-row"><span class="rl">— Bonificación</span><span class="rv" style="color:var(--green)">- ${fmt(bono)}</span></div>` : ''}
-    <div class="result-row"><span class="rl">Transferencia</span><span class="rv">${fmt(transf)}</span></div>
-    <hr class="divider">
-    <div class="result-row"><span class="rl">Precio neto sin transf.</span><span class="rv accent">${fmt(precioNeto)}</span></div>
-    <div class="result-row"><span class="rl">Precio neto con transf.</span><span class="rv accent">${fmt(precioNetoConTransf)}</span></div>
-    ${precioVentaRaw > 0 ? `<hr class="divider"><div class="result-row"><span class="rl" style="color:var(--accent2)">👁 Precio de venta al cliente</span><span class="rv" style="color:var(--accent2);font-weight:700">${fmt(precioVenta)}</span></div><div class="result-row"><span class="rl" style="color:var(--accent2)">👁 Con transferencia</span><span class="rv" style="color:var(--accent2)">${fmt(precioVentaConTransf)}</span></div>` : ''}
-  </div>`;
-
-  if (entrega > 0) {
-    html += `
-  <div class="result-section">
-    <div class="result-title">ANÁLISIS DE LA OPERACIÓN</div>
-    <div class="result-row"><span class="rl">Entrega del cliente</span><span class="rv green">${fmt(entrega)}</span></div>
-    <div class="result-row">
-      <span class="rl">La entrega ${inclTransf ? 'incluye' : 'NO incluye'} transferencia</span>
-      <span class="rv" style="font-size:12px;color:var(--text2)">${inclTransf ? '✓' : '✗'}</span>
-    </div>
-    <hr class="divider">
-    <div class="result-row">
-      <span class="rl">Monto a financiar</span>
-      <span class="rv ${excedeMax ? 'red' : 'blue'} big">${fmt(Math.max(0, montoAFinanciar))}</span>
-    </div>
-    ${maxFin > 0 ? `<div class="result-row"><span class="rl">Máximo permitido</span><span class="rv">${fmt(maxFin)}</span></div>` : ''}
-    ${excedeMax ? `<div class="alert-row">⚠️ Excede el máximo a financiar por <strong>${fmt(montoAFinanciar - maxFin)}</strong>. Aumentar entrega o bonificación.</div>` : ''}
-    ${entregaSuficiente ? `<div class="ok-row">✓ Operación viable. El monto a financiar está dentro del límite.</div>` : ''}
-    ${montoAFinanciar <= 0 ? `<div class="ok-row">✓ El cliente cubre el total con la entrega. Sin financiación necesaria.</div>` : ''}
-  </div>`;
-
-    if (montoAFinanciar > 0) {
-      html += `
-  <div class="result-section">
-    <div class="result-title">CUOTAS ESTIMADAS</div>
-    <div class="result-row"><span class="rl">Cantidad de cuotas</span><span class="rv">${cuotas}</span></div>
-    <div class="result-row">
-      <span class="rl">Cuota estimada (sin interés)</span>
-      <span class="rv accent big">${fmt(cuotaEstimada)}</span>
-    </div>
-    <div style="font-size:11px;color:var(--text2);margin-top:6px;padding:0 0 4px">* Valor referencial sin aplicar TNA. La cuota final depende de la entidad financiera.</div>
-  </div>`;
+  v[field] = val;
+  if(field === 'valor_final' || field === 'entrega_min' || field === 'modelo' || field === 'anio'){
+    const card = document.getElementById('card-'+id);
+    if(card){
+      const finalEl = card.querySelector('.final');
+      const entregaEl = card.querySelector('.entrega');
+      const modeloEl = card.querySelector('.modelo');
+      const anioEl = card.querySelector('.anio');
+      if(finalEl) finalEl.textContent = money(v.valor_final);
+      if(entregaEl) entregaEl.textContent = 'entrega ' + money(v.entrega_min);
+      if(modeloEl) modeloEl.textContent = v.modelo || 'Sin nombre';
+      if(anioEl) anioEl.textContent = String(v.anio ?? '');
     }
-    waBtn.disabled = false;
-  } else {
-    html += `
-  <div class="result-section">
-    <div style="color:var(--text2);font-size:13px;text-align:center;padding:6px 0">Ingresá la entrega del cliente para ver el análisis de financiación</div>
-  </div>`;
-    waBtn.disabled = (precioBase === 0);
   }
-
-  document.getElementById('calcResults').innerHTML = html;
+  scheduleSave();
 }
 
-function compartirWhatsApp() {
-  const precioBase = parseFloat(document.getElementById('calcPrecioBase').value) || 0;
-  const precioVentaRaw = parseFloat(document.getElementById('calcPrecioVenta').value);
-  const precioVenta = precioVentaRaw > 0 ? precioVentaRaw : precioBase;
-  const transf = parseFloat(document.getElementById('calcTransf').value) || 0;
-  const entrega = parseFloat(document.getElementById('calcEntrega').value) || 0;
-  const cuotas = parseInt(document.getElementById('calcCuotas').value) || 24;
-  const bono = parseFloat(document.getElementById('calcBono').value) || 0;
-  const nombre = document.getElementById('calcNombre').value.trim();
-  const carIdx = document.getElementById('calcCarSelect').value;
-  const carName = carIdx !== '' ? CARS[carIdx].name : 'Vehículo';
-  const carYear = carIdx !== '' ? CARS[carIdx].year : '';
-
-  const precioVentaConTransf = precioVenta + transf;
-  const precioNeto = precioBase - bono;
-  const precioNetoConTransf = precioNeto + transf;
-
-  let montoFin;
-  if (inclTransf) {
-    montoFin = precioNetoConTransf - entrega;
-  } else {
-    montoFin = precioNeto - entrega;
-  }
-  const cuotaEst = montoFin > 0 ? montoFin / cuotas : 0;
-
-  // Precio que ve el cliente: el de venta (sin mostrar descuento ni precio real)
-  const precioClienteSinTransf = precioVenta;
-  const precioClienteConTransf = precioVenta + transf;
-
-  let msg = `🚗 *ONE QUEST Automotores*
-`;
-  msg += `━━━━━━━━━━━━━━━━━━━━
-`;
-  if (nombre) msg += `👤 *Cliente:* ${nombre}
-`;
-  msg += `🏷 *${carName}*${carYear ? ` (${carYear})` : ''}
-`;
-  msg += `━━━━━━━━━━━━━━━━━━━━
-`;
-  msg += `💰 *Precio del vehículo:* ${fmt(precioClienteSinTransf)}
-`;
-  msg += `📋 *Transferencia:* ${fmt(transf)}
-`;
-  msg += `✅ *Precio total:* ${fmt(precioClienteConTransf)}
-`;
-  msg += `━━━━━━━━━━━━━━━━━━━━
-`;
-  if (entrega > 0) {
-    msg += `💵 *Entrega:* ${fmt(entrega)}${inclTransf ? ' (incluye transferencia)' : ''}
-`;
-    if (montoFin > 0) {
-      msg += `🏦 *Financia:* ${fmt(montoFin)}
-`;
-      msg += `📅 *${cuotas} cuotas de aprox.:* ${fmt(cuotaEst)}
-`;
-    } else {
-      msg += `✔️ Cubre el total con la entrega
-`;
-    }
-    msg += `━━━━━━━━━━━━━━━━━━━━
-`;
-  }
-  msg += `📍 _ONE QUEST Automotores, Mendoza_
-`;
-  msg += `_Consultas sin compromiso_ 😊`;
-
-  const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
+function deleteCar(id){
+  if(!confirm('¿Eliminar este vehículo de la lista?')) return;
+  data = data.filter(v => v.id !== id);
+  if(openId === id) openId = null;
+  render();
+  persist(false);
 }
 
-// Init
-populateCalcSelect();
-renderCards(CARS);
-
-// ── Inline Manifest ──────────────────────────────────────────
-const manifestData = {
-  name: "ONE QUEST — Precios",
-  short_name: "ONE QUEST",
-  description: "Lista de precios y calculadora de financiación",
-  start_url: "./",
-  display: "standalone",
-  background_color: "#080c18",
-  theme_color: "#e8a020",
-  icons: [
-    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='32' fill='%23080c18'/%3E%3Ctext x='96' y='130' font-size='100' text-anchor='middle' fill='%23e8a020'%3E🚗%3C/text%3E%3C/svg%3E", sizes: "192x192", type: "image/svg+xml" },
-    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='80' fill='%23080c18'/%3E%3Ctext x='256' y='340' font-size='280' text-anchor='middle' fill='%23e8a020'%3E🚗%3C/text%3E%3C/svg%3E", sizes: "512x512", type: "image/svg+xml" }
-  ]
-};
-const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
-const manifestURL = URL.createObjectURL(manifestBlob);
-document.getElementById('pwa-manifest').setAttribute('href', manifestURL);
-
-// ── Inline Service Worker ─────────────────────────────────────
-if ('serviceWorker' in navigator) {
-  const swCode = `
-const CACHE = 'onequest-v1';
-self.addEventListener('install', e => { self.skipWaiting(); });
-self.addEventListener('activate', e => { self.clients.claim(); });
-self.addEventListener('fetch', e => {
-  e.respondWith(fetch(e.request).catch(() => new Response('Offline')));
-});
-  `;
-  const swBlob = new Blob([swCode], { type: 'application/javascript' });
-  const swURL = URL.createObjectURL(swBlob);
-  navigator.serviceWorker.register(swURL, { type: 'classic' }).catch(() => {});
+function addCar(){
+  const nv = {
+    id: nextId(),
+    modelo: 'Nuevo vehículo',
+    anio: '',
+    valor: null,
+    transferencia: null,
+    valor_final: null,
+    max_financiar: null,
+    entrega_min: null,
+    bonificacion: null,
+    outlet_efectivo: null,
+    caracteristicas: ''
+  };
+  data.unshift(nv);
+  openId = nv.id;
+  render();
+  persist(false);
+  setTimeout(()=>{
+    const card = document.getElementById('card-'+nv.id);
+    if(card) card.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 50);
 }
+
+function escapeHtml(str){
+  if(str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function escapeAttr(str){
+  if(str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+$search.addEventListener('input', render);
+document.getElementById('btnAdd').addEventListener('click', addCar);
+
+loadData();
 </script>
+
 </body>
 </html>
